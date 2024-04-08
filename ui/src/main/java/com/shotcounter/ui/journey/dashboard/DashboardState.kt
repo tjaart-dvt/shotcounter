@@ -1,4 +1,4 @@
-package com.shotcounter.ui.dashboard
+package com.shotcounter.ui.journey.dashboard
 
 import com.shotcounter.ui.navigation.Screen
 

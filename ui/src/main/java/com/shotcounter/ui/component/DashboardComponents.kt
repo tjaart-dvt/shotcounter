@@ -1,4 +1,4 @@
-package com.shotcounter.ui.dashboard
+package com.shotcounter.ui.component
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.shotcounter.ui.R
+import com.shotcounter.ui.journey.dashboard.DashboardIntent
 
 @Composable
 fun DashboardHeading() {

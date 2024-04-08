@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.shotcounter.ui.dashboard.Dashboard
-import com.shotcounter.ui.recordshoot.RecordShoot
+import com.shotcounter.ui.journey.dashboard.Dashboard
+import com.shotcounter.ui.journey.recordshoot.RecordShoot
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

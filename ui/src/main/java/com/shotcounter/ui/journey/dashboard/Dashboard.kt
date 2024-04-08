@@ -1,4 +1,4 @@
-package com.shotcounter.ui.dashboard
+package com.shotcounter.ui.journey.dashboard
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.shotcounter.ui.component.DashboardHeading
+import com.shotcounter.ui.component.RecordNewShootButton
 import com.shotcounter.ui.navigation.observe
 
 @Composable

@@ -1,4 +1,4 @@
-package com.shotcounter
+package com.shotcounter.app
 
 import android.app.Application
 import com.shotcounter.ui.UiConfig

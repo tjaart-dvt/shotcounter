@@ -1,4 +1,4 @@
-package com.shotcounter
+package com.shotcounter.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

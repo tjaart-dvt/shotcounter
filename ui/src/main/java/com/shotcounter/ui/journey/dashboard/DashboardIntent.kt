@@ -1,4 +1,4 @@
-package com.shotcounter.ui.dashboard
+package com.shotcounter.ui.journey.dashboard
 
 sealed class DashboardIntent {
     data object RecordShoot: DashboardIntent()
