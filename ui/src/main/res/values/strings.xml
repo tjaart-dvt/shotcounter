@@ -5,6 +5,13 @@
     <string name="dahboard_title">PEW PEW</string>
 
     <string name="record_shoot_button_start_label">Start</string>
+    <string name="record_shoot_button_stop_label">Stop</string>
+    <string name="record_shoot_button_results_label">Show Results</string>
     <string name="record_shoot_button_start_content_description">Start button</string>
+    <string name="record_shoot_button_stop_content_description">Stop button</string>
     <string name="record_shoot_title">RECORD SHOOT</string>
+    <string name="recording_shots_title">RECORDING YOUR SHOTS</string>
+    <string name="results_shots_title">YOUR RESULTS</string>
+    <string name="recording_shots_count">%1d shots recorded</string>
+    <string name="cadence_label">Average time per shot - %s</string>
 </resources>
