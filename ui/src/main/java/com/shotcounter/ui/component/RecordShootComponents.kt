@@ -1,8 +1,18 @@
 package com.shotcounter.ui.component
 
+import android.content.Context
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -16,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -26,14 +37,127 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.shotcounter.ui.R
 import com.shotcounter.ui.journey.recordshoot.RecordShootIntent
+import com.shotcounter.ui.journey.recordshoot.RecordShootState
+import com.shotcounter.ui.journey.recordshoot.launchAudioPermission
 import java.text.DecimalFormat
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 @Composable
+fun StartShoot(
+    context: Context,
+    audioPermissionLauncher: ManagedActivityResultLauncher<String, Boolean>,
+    intent: (RecordShootIntent) -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.weight(0.1f))
+        RecordShootHeading()
+        Spacer(modifier = Modifier.weight(0.1f))
+        StartShootButton {
+            launchAudioPermission(context, audioPermissionLauncher) {
+                intent(RecordShootIntent.StartCountDown)
+            }
+        }
+        Spacer(modifier = Modifier.weight(0.1f))
+    }
+}
+
+@Composable
+fun ShotResults(state: RecordShootState.Results) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 16.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        ResultsHeading()
+        TotalShotsHeading(state.shotTimesMs.size)
+        CadenceHeading(state.cadence)
+        Spacer(modifier = Modifier.weight(0.1f))
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) {
+            state.shotTimesMs.forEachIndexed { index, shotTime ->
+                ShotRecord(index, shotTime)
+            }
+        }
+
+        Spacer(modifier = Modifier.weight(0.1f))
+    }
+}
+
+@Composable
+fun ShotsRecorder(
+    state: RecordShootState.Record,
+    intent: (RecordShootIntent) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = 16.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        RecordingShotsHeading()
+        TotalShotsHeading(state.shotTimesMs.size)
+        Spacer(modifier = Modifier.weight(0.1f))
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) {
+            state.shotTimesMs.forEachIndexed { index, shotTime ->
+                ShotRecord(index, shotTime)
+            }
+        }
+
+        Spacer(modifier = Modifier.weight(0.1f))
+        AnimatedVisibility(
+            visible = state.isTimerRunning,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            ShotTimer(state.time) {
+                intent(RecordShootIntent.EndShoot())
+            }
+        }
+        AnimatedVisibility(
+            visible = !state.isTimerRunning,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            ResultsButton {
+                intent(RecordShootIntent.EndShoot())
+            }
+        }
+    }
+}
+
+@Composable
+fun CountDownAnimation(intent: (RecordShootIntent) -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+    ) {
+        CountDown {
+            intent(RecordShootIntent.StartShoot)
+        }
+    }
+}
+
+@Composable
 fun RecordShootHeading() {
     Text(
         text = stringResource(R.string.record_shoot_title),
+        color = MaterialTheme.colorScheme.secondary,
         style = MaterialTheme.typography.displayMedium
     )
 }
@@ -41,6 +165,7 @@ fun RecordShootHeading() {
 fun RecordingShotsHeading() {
     Text(
         text = stringResource(R.string.recording_shots_title),
+        color = MaterialTheme.colorScheme.secondary,
         style = MaterialTheme.typography.titleMedium
     )
 }
@@ -48,6 +173,7 @@ fun RecordingShotsHeading() {
 fun ResultsHeading() {
     Text(
         text = stringResource(R.string.results_shots_title),
+        color = MaterialTheme.colorScheme.secondary,
         style = MaterialTheme.typography.titleMedium
     )
 }
@@ -55,6 +181,7 @@ fun ResultsHeading() {
 fun TotalShotsHeading(shotCount: Int) {
     Text(
         text = stringResource(R.string.recording_shots_count, shotCount),
+        color = MaterialTheme.colorScheme.primary,
         style = MaterialTheme.typography.titleSmall
     )
 }
@@ -62,6 +189,7 @@ fun TotalShotsHeading(shotCount: Int) {
 fun CadenceHeading(cadence: Long) {
     Text(
         text = stringResource(R.string.cadence_label, formatTime(cadence)),
+        color = MaterialTheme.colorScheme.primary,
         style = MaterialTheme.typography.titleSmall
     )
 }

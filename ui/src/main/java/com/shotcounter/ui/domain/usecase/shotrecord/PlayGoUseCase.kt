@@ -9,7 +9,7 @@ interface IPlayGoUseCase {
 
 class PlayGoUseCase: IPlayGoUseCase {
     override fun execute() {
-        val toneGenerator = ToneGenerator(AudioManager.STREAM_MUSIC, 400)
-        toneGenerator.startTone(ToneGenerator.TONE_CDMA_HIGH_L, 400)
+        val toneGenerator = ToneGenerator(AudioManager.STREAM_MUSIC, 140)
+        toneGenerator.startTone(ToneGenerator.TONE_DTMF_P, 400)
     }
 }

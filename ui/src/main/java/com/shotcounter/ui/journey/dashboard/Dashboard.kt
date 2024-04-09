@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.shotcounter.ui.component.DashboardHeading
+import com.shotcounter.ui.component.DashboardSubHeading
 import com.shotcounter.ui.component.RecordNewShootButton
 import com.shotcounter.ui.navigation.observe
 
@@ -47,6 +48,7 @@ private fun DashboardContent(
         ) {
             Spacer(modifier = Modifier.weight(0.1f))
             DashboardHeading()
+            DashboardSubHeading()
             Spacer(modifier = Modifier.weight(0.3f))
             RecordNewShootButton(onClick)
             Spacer(modifier = Modifier.weight(0.1f))

@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">ui</string>
     <string name="dashboard_button_record_shoot_label">Record a new shoot</string>
-    <string name="dasboard_icon_record_shoot_content_description">Add shoot button</string>
-    <string name="dahboard_title">PEW PEW</string>
+    <string name="dashboard_icon_record_shoot_content_description">Add shoot button</string>
+    <string name="dashboard_title">PEW PEW</string>
+    <string name="dashboard_sub_title">TIMER</string>
 
     <string name="record_shoot_button_start_label">Start</string>
     <string name="record_shoot_button_stop_label">Stop</string>

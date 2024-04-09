@@ -11,6 +11,6 @@ sealed class RecordShootState {
     data class Results(
         var time: Long = 0L,
         val shotTimesMs: List<Long> = listOf(),
-        val cadence: Double = 0.0
+        val cadence: Long = 0
     ): RecordShootState()
 }

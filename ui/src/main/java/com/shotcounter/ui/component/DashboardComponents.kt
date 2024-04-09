@@ -7,6 +7,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.shotcounter.ui.R
 import com.shotcounter.ui.journey.dashboard.DashboardIntent
@@ -14,8 +15,17 @@ import com.shotcounter.ui.journey.dashboard.DashboardIntent
 @Composable
 fun DashboardHeading() {
     Text(
-        text = stringResource(R.string.dahboard_title),
+        text = stringResource(R.string.dashboard_title),
+        color = MaterialTheme.colorScheme.secondary,
         style = MaterialTheme.typography.displayMedium
+    )
+}
+@Composable
+fun DashboardSubHeading() {
+    Text(
+        text = stringResource(R.string.dashboard_sub_title),
+        color = MaterialTheme.colorScheme.primary,
+        style = MaterialTheme.typography.titleMedium
     )
 }
 
@@ -26,7 +36,7 @@ fun RecordNewShootButton(onClick: (DashboardIntent) -> Unit) {
         icon = {
             Icon(
                 Icons.Filled.Add,
-                stringResource(R.string.dasboard_icon_record_shoot_content_description)
+                stringResource(R.string.dashboard_icon_record_shoot_content_description)
             )
         },
         text = { Text(text = stringResource(R.string.dashboard_button_record_shoot_label)) }

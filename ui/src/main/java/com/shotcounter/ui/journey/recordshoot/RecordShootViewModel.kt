@@ -48,7 +48,7 @@ class RecordShootViewModel(
                     RecordShootState.Results(
                         time = results.time,
                         shotTimesMs = results.shotTimesMs,
-                        cadence = results.shotTimesMs.average()
+                        cadence = results.cadenceValues.average().toLong()
                     )
                 }
             }

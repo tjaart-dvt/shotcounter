@@ -49,10 +49,18 @@ class TimeShotsUseCase : ITimeShotsUseCase {
     }
 
     override fun results(): ShotModel {
+        val cadenceValues = mutableListOf<Long>()
+        shots.forEachIndexed { index, value ->
+
+            if(shots.indices.contains(index +1)) {
+                cadenceValues.add(shots[index+1] - value)
+            }
+        }
         return ShotModel(
             isTimerRunning = false,
             time = time,
-            shotTimesMs = shots
+            shotTimesMs = shots,
+            cadenceValues = cadenceValues
         )
     }
 }
