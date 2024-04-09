@@ -14,5 +14,5 @@
     <string name="recording_shots_title">RECORDING YOUR SHOTS</string>
     <string name="results_shots_title">YOUR RESULTS</string>
     <string name="recording_shots_count">%1d shots recorded</string>
-    <string name="cadence_label">Average time per shot - %s</string>
+    <string name="cadence_label">Average time per shot %s</string>
 </resources>

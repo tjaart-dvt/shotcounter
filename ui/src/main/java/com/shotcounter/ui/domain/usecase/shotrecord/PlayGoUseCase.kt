@@ -8,8 +8,11 @@ interface IPlayGoUseCase {
 }
 
 class PlayGoUseCase: IPlayGoUseCase {
+    private val volume = 140
+    private val durationMs = 400
+
     override fun execute() {
-        val toneGenerator = ToneGenerator(AudioManager.STREAM_MUSIC, 140)
-        toneGenerator.startTone(ToneGenerator.TONE_DTMF_P, 400)
+        val toneGenerator = ToneGenerator(AudioManager.STREAM_MUSIC, volume)
+        toneGenerator.startTone(ToneGenerator.TONE_DTMF_P, durationMs)
     }
 }

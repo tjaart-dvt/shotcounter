@@ -2,7 +2,6 @@ package com.shotcounter.ui.component
 
 import android.content.Context
 import androidx.activity.compose.ManagedActivityResultLauncher
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -125,7 +124,7 @@ fun ShotsRecorder(
             exit = fadeOut()
         ) {
             ShotTimer(state.time) {
-                intent(RecordShootIntent.EndShoot())
+                intent(RecordShootIntent.EndShoot)
             }
         }
         AnimatedVisibility(
@@ -134,7 +133,7 @@ fun ShotsRecorder(
             exit = fadeOut()
         ) {
             ResultsButton {
-                intent(RecordShootIntent.EndShoot())
+                intent(RecordShootIntent.EndShoot)
             }
         }
     }
@@ -252,7 +251,7 @@ fun CountDown(onComplete: () -> Unit) {
 }
 
 @Composable
-fun ShotTimer(time: Long, onStop: (Long) -> Unit = {}) {
+fun ShotTimer(time: Long, onStop: () -> Unit = {}) {
     Column(modifier = Modifier.padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
@@ -263,7 +262,7 @@ fun ShotTimer(time: Long, onStop: (Long) -> Unit = {}) {
         )
 
         StopShootButton {
-            onStop(time)
+            onStop()
         }
     }
 }

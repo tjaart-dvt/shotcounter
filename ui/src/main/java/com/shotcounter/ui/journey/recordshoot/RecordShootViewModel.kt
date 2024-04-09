@@ -21,37 +21,49 @@ class RecordShootViewModel(
     fun onIntent(intent: RecordShootIntent) {
         when (intent) {
             RecordShootIntent.StartCountDown -> {
-                _state.update {
-                    RecordShootState.StartCountDown
-                }
+                startCountDown()
             }
 
             is RecordShootIntent.StartShoot -> {
-                playGoSoundUseCase.execute()
-                viewModelScope.launch {
-                    timeShotsUseCase.start().collectLatest { timer ->
-                        _state.update {
-                            RecordShootState.Record(
-                                time = timer.time,
-                                isTimerRunning = timer.isTimerRunning,
-                                shotTimesMs = timer.shotTimesMs
-                            )
-                        }
-                    }
-                }
+                recordShoot()
             }
 
-            is RecordShootIntent.EndShoot -> {
-                timeShotsUseCase.stop()
-                val results = timeShotsUseCase.results()
+            RecordShootIntent.EndShoot -> {
+                displayResults()
+            }
+        }
+    }
+
+    private fun startCountDown() {
+        _state.update {
+            RecordShootState.StartCountDown
+        }
+    }
+
+    private fun recordShoot() {
+        playGoSoundUseCase.execute()
+        viewModelScope.launch {
+            timeShotsUseCase.start().collectLatest { timer ->
                 _state.update {
-                    RecordShootState.Results(
-                        time = results.time,
-                        shotTimesMs = results.shotTimesMs,
-                        cadence = results.cadenceValues.average().toLong()
+                    RecordShootState.Record(
+                        time = timer.time,
+                        isTimerRunning = timer.isTimerRunning,
+                        shotTimesMs = timer.shotTimesMs
                     )
                 }
             }
+        }
+    }
+
+    private fun displayResults() {
+        timeShotsUseCase.stop()
+        val results = timeShotsUseCase.results()
+        _state.update {
+            RecordShootState.Results(
+                time = results.time,
+                shotTimesMs = results.shotTimesMs,
+                cadence = results.cadenceValues.average().toLong()
+            )
         }
     }
 }

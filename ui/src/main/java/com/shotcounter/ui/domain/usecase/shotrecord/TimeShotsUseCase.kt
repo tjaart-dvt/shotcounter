@@ -1,10 +1,7 @@
 package com.shotcounter.ui.domain.usecase.shotrecord
 
-import android.util.Log
 import com.shotcounter.ui.domain.model.shotrecord.ShotModel
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flow
 
 interface ITimeShotsUseCase {
@@ -18,22 +15,26 @@ class TimeShotsUseCase : ITimeShotsUseCase {
     private var isRunning = true
     private var time = 0L
     private var shots = mutableListOf<Long>()
+
+    private val timeGap = 50L
+    private val maxShots = 10
+    private val randomIndex = 100000
     override fun start() = flow<ShotModel> {
         while (isRunning) {
-            delay(50)
-            time += 50
+            delay(timeGap)
+            time += timeGap
             emit(ShotModel(
                 isTimerRunning = isRunning,
                 time = time,
                 shotTimesMs = shots.toList()
             ))
 
-            val randomNumExclusive = (0 until 100000).random()
+            val randomNumExclusive = (0 until randomIndex).random()
 
-            if(shots.size < 10 && randomNumExclusive > 99000) {
+            if(shots.size < maxShots && randomNumExclusive > (randomIndex - 1)) {
                 shots.add(time)
             }
-            if(shots.size >= 10) {
+            if(shots.size >= maxShots) {
                 emit(ShotModel(
                     isTimerRunning = isRunning,
                     time = time,
@@ -51,11 +52,11 @@ class TimeShotsUseCase : ITimeShotsUseCase {
     override fun results(): ShotModel {
         val cadenceValues = mutableListOf<Long>()
         shots.forEachIndexed { index, value ->
-
-            if(shots.indices.contains(index +1)) {
-                cadenceValues.add(shots[index+1] - value)
+            if(shots.indices.contains(index + 1)) {
+                cadenceValues.add(shots[index + 1] - value)
             }
         }
+
         return ShotModel(
             isTimerRunning = false,
             time = time,
