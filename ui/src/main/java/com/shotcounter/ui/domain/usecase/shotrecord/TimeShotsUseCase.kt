@@ -7,18 +7,19 @@ import kotlinx.coroutines.flow.flow
 interface ITimeShotsUseCase {
     fun start(): kotlinx.coroutines.flow.Flow<ShotModel>
     fun stop()
-
     fun results(): ShotModel
 }
 
 class TimeShotsUseCase : ITimeShotsUseCase {
+    private val maxShots = 10
+    private val randomisedValue = 100000
+    private val randomAcceptanceReducer = 1000
+
     private var isRunning = true
     private var time = 0L
     private var shots = mutableListOf<Long>()
-
     private val timeGap = 50L
-    private val maxShots = 10
-    private val randomIndex = 100000
+
     override fun start() = flow<ShotModel> {
         while (isRunning) {
             delay(timeGap)
@@ -29,9 +30,9 @@ class TimeShotsUseCase : ITimeShotsUseCase {
                 shotTimesMs = shots.toList()
             ))
 
-            val randomNumExclusive = (0 until randomIndex).random()
+            val randomNumExclusive = (0 until randomisedValue).random()
 
-            if(shots.size < maxShots && randomNumExclusive > (randomIndex - 1)) {
+            if(shots.size < maxShots && randomNumExclusive > (randomisedValue - randomAcceptanceReducer)) {
                 shots.add(time)
             }
             if(shots.size >= maxShots) {
@@ -52,11 +53,10 @@ class TimeShotsUseCase : ITimeShotsUseCase {
     override fun results(): ShotModel {
         val cadenceValues = mutableListOf<Long>()
         shots.forEachIndexed { index, value ->
-            if(shots.indices.contains(index + 1)) {
-                cadenceValues.add(shots[index + 1] - value)
+            if(shots.indices.contains(index +1)) {
+                cadenceValues.add(shots[index+1] - value)
             }
         }
-
         return ShotModel(
             isTimerRunning = false,
             time = time,

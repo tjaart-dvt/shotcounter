@@ -290,5 +290,5 @@ private fun formatTime(time:Long): String {
     val minutes = (TimeUnit.MILLISECONDS.toMinutes(time) % 60).toInt()
     val formatSeconds = DecimalFormat("00.00").format(seconds)
 
-    return String.format(Locale.US, "%02d:$formatSeconds", minutes)
+    return String.format(Locale.getDefault(), "%02d:$formatSeconds", minutes)
 }
